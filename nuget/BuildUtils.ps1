@@ -1141,7 +1141,7 @@ function ConfigARM([Config]$Config)
       $env:OpenCV_DIR = $installOpenCVDir
       $env:ncnn_DIR = "${installNcnnDir}/lib/cmake/ncnn"
       Write-Host "   cmake -D BUILD_SHARED_LIBS=ON `
-         -D NCNN_VULKAN:BOOL=ON `
+         -D NCNN_VULKAN:BOOL=OFF `
          -D OpenCV_DIR=`"${installOpenCVDir}`" `
          -D ncnn_DIR=`"${installNcnnDir}/lib/cmake/ncnn`" `
          -D ncnn_SRC_DIR=`"${ncnnDir}`" `
