@@ -1125,7 +1125,7 @@ function ConfigARM([Config]$Config)
    else
    {
       cmake -D BUILD_SHARED_LIBS=ON `
-            -D USE_NCNN_VULKAN=OFF ``
+            -D USE_NCNN_VULKAN=OFF `
             -D CMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc" `
             -D CMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++" `
             ..
