@@ -1114,6 +1114,20 @@ function ConfigVulkan([Config]$Config)
 
 function ConfigARM([Config]$Config)
 {
+   $Builder = [ThirdPartyBuilder]::new($Config)
+
+   # Build Protobuf
+   $installProtobufDir = $Builder.BuildProtobuf()
+
+   # Build opencv
+   $installOpenCVDir = $Builder.BuildOpenCV()
+
+   # Build ncnn
+   $installNcnnDir = $Builder.BuildNcnn($installProtobufDir, "ON")
+
+   # To inclue src/layer
+   $ncnnDir = $Config.GetNcnnRootDir()
+
    if ($Config.GetArchitecture() -eq 32)
    {
       cmake -D BUILD_SHARED_LIBS=ON `
@@ -1124,10 +1138,20 @@ function ConfigARM([Config]$Config)
    }
    else
    {
+      $env:OpenCV_DIR = $installOpenCVDir
+      $env:ncnn_DIR = "${installNcnnDir}/lib/cmake/ncnn"
+      Write-Host "   cmake -D BUILD_SHARED_LIBS=ON `
+         -D NCNN_VULKAN:BOOL=ON `
+         -D OpenCV_DIR=`"${installOpenCVDir}`" `
+         -D ncnn_DIR=`"${installNcnnDir}/lib/cmake/ncnn`" `
+         -D ncnn_SRC_DIR=`"${ncnnDir}`" `
+         .." -ForegroundColor Yellow
       cmake -D BUILD_SHARED_LIBS=ON `
-            -D USE_NCNN_VULKAN=OFF `
-            -D CMAKE_C_COMPILER="/usr/bin/aarch64-linux-gnu-gcc" `
-            -D CMAKE_CXX_COMPILER="/usr/bin/aarch64-linux-gnu-g++" `
+            -D CMAKE_C_COMPILER="/usr/bin/gcc" `
+            -D CMAKE_CXX_COMPILER="/usr/bin/g++" `
+            -D OpenCV_DIR="${installOpenCVDir}" `
+            -D ncnn_DIR="${installNcnnDir}/lib/cmake/ncnn" `
+            -D ncnn_SRC_DIR="${ncnnDir}" `
             ..
    }
 }
