@@ -1123,18 +1123,18 @@ function ConfigARM([Config]$Config)
    $installOpenCVDir = $Builder.BuildOpenCV()
 
    # Build ncnn
-   $installNcnnDir = $Builder.BuildNcnn($installProtobufDir, "ON")
+   $installNcnnDir = $Builder.BuildNcnn($installProtobufDir, "OFF")
 
    # To inclue src/layer
    $ncnnDir = $Config.GetNcnnRootDir()
 
+   # Build NcnnDotNet.Native
+   Write-Host "Start Build NcnnDotNet.Native" -ForegroundColor Green
+
    if ($Config.GetArchitecture() -eq 32)
    {
-      cmake -D BUILD_SHARED_LIBS=ON `
-            -D USE_NCNN_VULKAN=OFF `
-            -D CMAKE_C_COMPILER="/usr/bin/arm-linux-gnueabihf-gcc" `
-            -D CMAKE_CXX_COMPILER="/usr/bin/arm-linux-gnueabihf-g++" `
-            ..
+      Write-Host "Error: ARM32 not supported" -ForegroundColor Red
+      exit -1
    }
    else
    {
