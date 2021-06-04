@@ -30,6 +30,7 @@ $BuildSourceHash = [Config]::GetBinaryLibraryLinuxHash()
 $BuildTargets = @()
 $BuildTargets += New-Object PSObject -Property @{ Platform = "desktop"; Target = "cpu";     Architecture = 64; Postfix = "/x64"; RID = "$OperatingSystem-x64"; }
 $BuildTargets += New-Object PSObject -Property @{ Platform = "desktop"; Target = "vulkan";  Architecture = 64; Postfix = "/x64"; RID = "$OperatingSystem-x64"; }
+$BuildTargets += New-Object PSObject -Property @{ Platform = "desktop"; Target = "arm";     Architecture = 64; Postfix = "/64"; RID = "$OperatingSystem-arm64"; }
 
 foreach($BuildTarget in $BuildTargets)
 {
